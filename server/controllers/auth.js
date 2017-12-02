@@ -1,6 +1,7 @@
 const User = require('../models/user');
 
 exports.signup = (req, res, next) => {
+    // Data from the request
     const email = req.body.email;
     const password = req.body.password;
 
@@ -13,6 +14,12 @@ exports.signup = (req, res, next) => {
             return res.status(422).send({ error: 'Email is in use.' });
         }
    
+
+        // Check for email & password
+        if (!email || !password) {
+            return res.status(422).send({ error: 'You must enter e-mail and password.' });
+        }
+
    
         // If not an existing user, create and save record.
         const user = new User({
