@@ -6,10 +6,26 @@ const User = require('../models/user');
 
 // Generate token for user
 function userToken(user) {
+    console.log('USER: ', user);
+
+
     const timestamp = new Date().getTime();
 
     return jwt.encode({ sub: user.id, iat: timestamp }, config.secret);
+
 }
+
+
+
+// User signin
+exports.signin = (req, res, next) => {
+    const user = req.user;
+
+    // On email and password authenticated, assign token to user.
+    res.send({ token: userToken(user) });
+    
+}
+
 
 
 // User registration

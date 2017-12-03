@@ -37,6 +37,21 @@ userSchema.pre('save', function(next) {
 });
 
 
+// Compare encrypted passwords
+// Once again, using fat arrow here will cause 'this.password' to become undefined, 
+// which will cause error of 'Incorrect arguments'.
+userSchema.methods.comparePassword = function(candidatePassword, callback) {
+    bcrypt.compare(candidatePassword, this.password, (error, isMatch) => {
+        
+        // In case of error, return callback with error
+        if (error) return callback(error);
+
+        // Otherwise, verify passwords are matched.
+        callback(null, isMatch);
+    });
+}
+
+
 // Create model class
 // A class consists of all users - Loads the schema which correspond with a collection named 'user' into mongoose.
 const model = mongoose.model('user', userSchema); 
