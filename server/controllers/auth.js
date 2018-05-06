@@ -6,8 +6,7 @@ const User = require('../models/user');
 
 // Generate token for user
 function userToken(user) {
-    console.log('USER: ', user);
-
+    // console.log('Generate token for USER: ', user);
 
     const timestamp = new Date().getTime();
 
@@ -18,31 +17,33 @@ function userToken(user) {
 
 
 // User signin
-exports.signin = (req, res, next) => {
+const signin = (req, res) => {
     const user = req.user;
 
-    // On email and password authenticated, assign token to user.
-    res.send({ token: userToken(user) });
-    
+    // On email and password authenticated(Passport Local Strategy), assign token to user.
+    const token = userToken(user);
+
+    res.send({ token: token });
+
 }
 
 
 
 // User registration
-exports.signup = (req, res, next) => {
+const signup = (req, res, next) => {
     // Data from the request
     const email = req.body.email;
     const password = req.body.password;
+    // console.log(email, password);
 
     // Check for existing user by email.
     User.findOne({ email: email }, (error, existingUser) => {
         if (error) return next(error);
-
+        
         // If user already exist, return error.
         if (existingUser) {
             return res.status(422).send({ error: 'Email is in use.' });
         }
-   
 
         // Check for email & password
         if (!email || !password) {
@@ -61,8 +62,16 @@ exports.signup = (req, res, next) => {
 
             // Respond to request indicating user is created.
             res.json({ token: userToken(user) });
+            
         });
    
     });
 
+}
+
+
+
+module.exports = {
+    signin,
+    signup
 }

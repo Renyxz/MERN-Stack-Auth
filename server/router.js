@@ -1,18 +1,41 @@
-const Auth = require('./controllers/auth');
 const passport = require('passport');
-const passportService = require('./services/passport');
+const Auth = require('./controllers/auth');
 
+const options = {
+    session: false,
+    // sucessRedirect: '/',
+    // failureRedirect: '/login',
+    // failureFlash: true
+};
 
-// Authenticate token
-const requireAuth = passport.authenticate('jwt', { session: false });
-const requireSignin = passport.authenticate('local', { session: false });
+// For debugging
+// const callback = (error, user, info) => {
+//     console.log('done: ', error, user, info);
+// };
+
+const requireSignIn = passport.authenticate('local', options);
+const requireAuth = passport.authenticate('jwt', options);
 
 
 module.exports = (app) => {
-    app.get('/', requireAuth, (req, res) => {
-        res.send({ msg: 'What\'s up?' });
+
+    // Index
+    app.get('/', (req, res) => {
+        return res.send('Index page');
     });
 
-    app.post('/signin', requireSignin, Auth.signin);
+    // Login
+    app.post('/login', requireSignIn, (req, res) => {
+        Auth.signin(req, res); 
+        return res.send('auth success');
+    });
+
+    // Sign up
     app.post('/signup', Auth.signup);
+
+    // Dashboard
+    app.get('/dashboard', requireAuth, (req, res) => {
+        return res.send('User profile');
+    });
+
 }

@@ -1,30 +1,38 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema; // Tell mongoose about input fields we need.
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcrypt');
 
-// Define model
+const Schema = mongoose.Schema;
+
+// User schema
 const userSchema = new Schema({
+
     email: {
         type: String,
+        required: true,
         unique: true,
         lowercase: true
     },
-    password: String
+    password: {
+        type: String,
+        required: true
+    }
 
 });
-
 
 // On save hook ( before saving the model ), encrypt password
 // Fat arrow will break code due to context of 'user' being equal to the model file instead of 'userSchema'.
 userSchema.pre('save', function(next) {
-    const user = this; // the userSchema object
+
+    const user = this;
 
     bcrypt.genSalt(10, (error, salt) => {
+        
         // If there is an error
         if (error) return next(error);
 
         // Otherwise, encrypt password
-        bcrypt.hash(user.password, salt, null, (error, hash) => {
+        bcrypt.hash(user.password, salt, (error, hash) => {
+
             // If ther is an error 
             if (error) return next(error);
 
@@ -34,6 +42,7 @@ userSchema.pre('save', function(next) {
             next(); // Proceed with saving the user model
         });
     });
+
 });
 
 
@@ -52,9 +61,11 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
 }
 
 
+
+// Model
 // Create model class
 // A class consists of all users - Loads the schema which correspond with a collection named 'user' into mongoose.
-const model = mongoose.model('user', userSchema); 
+const User = mongoose.model('User', userSchema);
 
 // Export the model
-module.exports = model;
+module.exports = User;
