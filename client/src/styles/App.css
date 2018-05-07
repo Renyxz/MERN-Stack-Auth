@@ -1,0 +1,62 @@
+/* Style Reset */
+a:hover {
+    text-decoration: none;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+
+/* Navbar */
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #00d8FF !important;
+    user-select: none;
+}
+
+
+/* Landing page */
+.landing .jumbotron {
+    background: transparent;
+}
+
+.landing .jumbotron h1 {
+    font-size: 3rem;
+}
+
+.landing .jumbotron i {
+    font-size: 5rem;
+    color: #00d8FF;    
+}
+
+.landing-btn {
+    padding: 1rem 2rem;
+    color: #00d8FF;
+    border-radius: 50px;
+    border: 1px solid #00d8FF;
+    -webkit-transition: 0.3s ease;
+    -moz-transition: 0.3s ease;
+    transition: 0.3s ease;
+}
+
+.landing-btn:hover {
+    background: #00d8FF;
+    color: #FFF;
+}
+
+
+/* Auth pages */
+.auth-form {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.auth-form .jumbotron {
+    width: 350px;
+}
