@@ -1,4 +1,6 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { login } from '../auth';
 
 
 const SignIn = () => {
@@ -8,11 +10,9 @@ const SignIn = () => {
         event.preventDefault();
 
         const formData = new FormData(event.target);
-        
-        for (let [key, value] of formData.entries()) { 
-            console.log(key, value);
-        }
 
+        login(formData);
+        
     }
 
     return(
