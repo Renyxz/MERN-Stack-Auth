@@ -3,9 +3,6 @@ const Auth = require('./controllers/auth');
 
 const options = {
     session: false,
-    // sucessRedirect: '/',
-    // failureRedirect: '/login',
-    // failureFlash: true
 };
 
 // For debugging
@@ -20,22 +17,22 @@ const requireAuth = passport.authenticate('jwt', options);
 module.exports = (app) => {
 
     // Index
-    app.get('/', (req, res) => {
-        return res.send('Index page');
+    app.get('/api', (req, res) => {
+        return res.send({ message: 'Index page' });
     });
 
     // Login
-    app.post('/login', requireSignIn, (req, res) => {
+    app.post('/api/login', requireSignIn, (req, res) => {
         Auth.signin(req, res); 
-        return res.send('auth success');
+        return res.send({ message: 'auth success' });
     });
 
     // Sign up
-    app.post('/signup', Auth.signup);
+    app.post('/api/signup', Auth.signup);
 
     // Dashboard
-    app.get('/dashboard', requireAuth, (req, res) => {
-        return res.send('User profile');
+    app.get('/api/user', requireAuth, (req, res) => {
+        return res.send({ message: 'User profile' });
     });
 
 }
