@@ -60,3 +60,39 @@ li {
 .auth-form .jumbotron {
     width: 350px;
 }
+
+
+
+/* Auth links & Profile button */
+
+/* Hide & Show */
+.auth-hide {
+    visibility: hidden;
+}
+
+.auth-show {
+    visibility: visible;
+}
+
+.profile-hide {
+    display: none;
+}
+
+.profile-show {
+    display: block;
+}
+
+/* Profile button */
+.profile .btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.profile .btn:focus {
+    background: transparent;
+}
+
+.profile .dropdown-toggle::after {
+    content: none;
+}
