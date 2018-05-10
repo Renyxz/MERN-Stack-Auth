@@ -7,7 +7,7 @@ const Navbar = () => {
 
     const isAuthenticated = window.sessionStorage.token;
     const authVisibility = isAuthenticated ? 'auth-hide' : 'auth-show';
-    const profileVisibility = isAuthenticated ? 'profile-hide' : 'profile-show';
+    const profileVisibility = isAuthenticated ? 'profile-show' : 'profile-hide';
 
     return(
 
