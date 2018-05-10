@@ -77,10 +77,20 @@ const login = (formData) => {
 };
 
 
+// Sign out
+const signout = () => {
+
+    window.sessionStorage.clear();
+    window.location = '/';
+
+};
+
+
 export {
 
     PrivateRoute,
     jwtAuthentication,
     login,
+    signout,
 
 }

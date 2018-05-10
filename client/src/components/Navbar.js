@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { signout } from '../auth';
 
 
 const Navbar = () => {
@@ -48,7 +49,7 @@ const Navbar = () => {
                             Dashboard
                         </Link>
                         
-                        <button className="dropdown-item" type="button">
+                        <button className="dropdown-item" type="button" onClick={ () => signout() }>
                             Sign out
                         </button>
                     </div>
