@@ -64,11 +64,14 @@ const login = (formData) => {
           })
     })
     .then( res => {
-        if(res.ok === true) {
-            window.location = '/';
-        }
-
-        console.log(res.statusText);
+        return res.json();
+    })
+    .then( res => {
+        window.sessionStorage.setItem('token', res.token);
+        window.location = '/';
+    })
+    .catch( error => {
+        console.log(error);
     });
 
 };
