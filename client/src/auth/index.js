@@ -26,6 +26,29 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 
 
+// Authentication
+const jwtAuthentication = (token) => {
+
+    const promise = fetch('/api/login', {
+      method: 'GET',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authentication': token
+        }
+  })
+  .then( res => {
+      return res.json();
+  })
+  .catch( error => {
+      console.log(error);
+  });
+
+    return promise;
+};
+
+
+
 // Login
 const login = (formData) => {
     
@@ -54,6 +77,7 @@ const login = (formData) => {
 export {
 
     PrivateRoute,
+    jwtAuthentication,
     login,
 
 }
