@@ -11,9 +11,11 @@ import Navbar from './components/Navbar';
 import App from './components/App';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
+import Dashboard from './components/Dashboard';
 
 // Router
 import { BrowserRouter, Route } from 'react-router-dom';
+import { PrivateRoute } from './auth';
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -25,6 +27,7 @@ ReactDOM.render(
             <Route exact path="/" component={ App } />
             <Route exact path="/signin" component={ SignIn } />
             <Route exact path="/signup" component={ SignUp } />
+            <PrivateRoute exact path="/dashboard" component={ Dashboard } />
         </div>    
     </BrowserRouter>
 

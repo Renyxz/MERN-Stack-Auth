@@ -1,4 +1,33 @@
-export const login = (formData) => {
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
+
+
+
+// Private route
+const isAuthenticated = window.sessionStorage.token;
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route
+      {...rest}
+      render={props =>
+        isAuthenticated ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/signin",
+              state: { from: props.location }
+            }}
+          />
+        )
+      }
+    />
+);
+
+
+
+// Login
+const login = (formData) => {
     
     fetch('/api/login', {
         method: 'POST',
@@ -21,3 +50,10 @@ export const login = (formData) => {
 
 };
 
+
+export {
+
+    PrivateRoute,
+    login,
+
+}
