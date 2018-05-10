@@ -29,20 +29,20 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 // Authentication
 const jwtAuthentication = (token) => {
 
-    const promise = fetch('/api/login', {
+    const promise = fetch('/api/user', {
       method: 'GET',
       headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authentication': token
+          'Authorization': token
         }
-  })
-  .then( res => {
-      return res.json();
-  })
-  .catch( error => {
-      console.log(error);
-  });
+    })
+    .then( res => {
+        return res.json(); 
+    })
+    .catch( error => {
+        console.log(error);
+    });
 
     return promise;
 };

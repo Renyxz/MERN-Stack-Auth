@@ -32,7 +32,7 @@ module.exports = (app) => {
 
     // Dashboard
     app.get('/api/user', requireAuth, (req, res) => {
-        return res.send({ message: 'User profile' });
+        return res.send(req.user);
     });
 
 }
