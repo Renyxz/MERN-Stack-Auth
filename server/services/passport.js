@@ -66,8 +66,8 @@ const jwtLogin = new JWTStrategy(jwtOptions, (jwt_payload, done) => {
             return done(error, false);
         }
 
-        // If user ID exists, call 'done' with the user:
-        (user) ? done(null, user)
+        // If user ID exists and token has not expired, call 'done' with the user:
+        (user && jwt_payload.exp > Date.now()) ? done(null, user)
 
         // Otherwise, call 'done' without a user object:
         : done(null, false);

@@ -10,7 +10,7 @@ function userToken(user) {
 
     const timestamp = new Date().getTime();
 
-    return jwt.encode({ sub: user.id, iat: timestamp }, config.secret);
+    return jwt.encode({ sub: user.id, iat: timestamp, exp: timestamp + 3600 * 1000 }, config.secret);
 
 }
 
