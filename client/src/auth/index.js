@@ -3,29 +3,6 @@ import { Route, Redirect } from 'react-router-dom';
 
 
 
-// Private route
-const isAuthenticated = window.sessionStorage.token;
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route
-      {...rest}
-      render={props =>
-        isAuthenticated ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/signin",
-              state: { from: props.location }
-            }}
-          />
-        )
-      }
-    />
-);
-
-
-
 // Authentication
 const jwtAuthentication = (token) => {
 
@@ -49,6 +26,62 @@ const jwtAuthentication = (token) => {
 
 
 
+// Auth checker
+const auth = {
+    
+    isAuthenticated: false,
+
+    authenticate() {
+        
+        const token = window.sessionStorage.token;
+    
+        const promise = jwtAuthentication(token);
+        
+        promise.then( res => {
+            // console.log('isAuth jwt: ', res);
+            if(!res){
+                this.isAuthenticated = false;
+                window.sessionStorage.clear();
+            } else {
+                this.isAuthenticated = true;
+            } 
+        });
+
+    },
+
+    // Sign out
+    signout() {
+
+        window.sessionStorage.clear();
+        window.location = '/';
+
+    }
+
+};
+
+
+
+// Private route
+const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route
+      {...rest}
+      render={props =>
+        window.sessionStorage.auth ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/signin",
+              state: { from: props.location }
+            }}
+          />
+        )
+      }
+    />
+);
+
+
+
 // Login
 const login = (formData) => {
     
@@ -68,6 +101,7 @@ const login = (formData) => {
     })
     .then( res => {
         window.sessionStorage.setItem('token', res.token);
+        window.sessionStorage.setItem('auth', true);
         window.location = '/';
     })
     .catch( error => {
@@ -77,20 +111,12 @@ const login = (formData) => {
 };
 
 
-// Sign out
-const signout = () => {
-
-    window.sessionStorage.clear();
-    window.location = '/';
-
-};
-
 
 export {
 
-    PrivateRoute,
     jwtAuthentication,
+    auth,
+    PrivateRoute,
     login,
-    signout,
 
 }

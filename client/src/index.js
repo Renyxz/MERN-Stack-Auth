@@ -15,9 +15,11 @@ import Dashboard from './components/Dashboard';
 
 // Router
 import { BrowserRouter, Route } from 'react-router-dom';
-import { PrivateRoute } from './auth';
+import { PrivateRoute, auth } from './auth';
 
 import registerServiceWorker from './registerServiceWorker';
+
+auth.authenticate();
 
 ReactDOM.render(
     

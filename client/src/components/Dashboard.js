@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { jwtAuthentication } from '../auth';
+import { jwtAuthentication, auth } from '../auth';
 
 class Dashboard extends Component {
 
@@ -12,16 +12,22 @@ class Dashboard extends Component {
     }
 
     componentWillMount() {
-
+        
         const token = window.sessionStorage.token; 
         
         const promise = jwtAuthentication(token);
-
+        
         promise.then( res => {
             console.log('jwtAuth: ', res);
-            this.setState({
-                userData: res
-            });
+            
+            if(res) {
+                this.setState({
+                    userData: res
+                });
+            } else {
+                auth.authenticate();
+                window.location.reload();
+            }
         });
       
         promise.catch( error => {

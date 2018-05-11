@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { signout } from '../auth';
+import { auth } from '../auth';
 
 
 const Navbar = () => {
 
-    const isAuthenticated = window.sessionStorage.token;
+    const isAuthenticated = window.sessionStorage.auth;
     const authVisibility = isAuthenticated ? 'auth-hide' : 'auth-show';
     const profileVisibility = isAuthenticated ? 'profile-show' : 'profile-hide';
 
@@ -49,7 +49,7 @@ const Navbar = () => {
                             Dashboard
                         </Link>
                         
-                        <button className="dropdown-item" type="button" onClick={ () => signout() }>
+                        <button className="dropdown-item" type="button" onClick={ () => auth.signout() }>
                             Sign out
                         </button>
                     </div>
