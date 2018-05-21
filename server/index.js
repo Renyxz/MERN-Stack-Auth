@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const config = require('./config');
 
 
@@ -26,6 +27,11 @@ error => {
 
 
 // App configurations
+
+// CORS
+app.use(cors());
+
+
 
 // Passport
 app.use(passport.initialize());

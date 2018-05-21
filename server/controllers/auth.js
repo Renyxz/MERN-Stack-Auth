@@ -2,6 +2,7 @@ const jwt = require('jwt-simple');
 const config = require('../config');
 
 const User = require('../models/user');
+const GoogleUser = require('../models/googleAuthUser');
 
 
 // Generate token for user
@@ -71,7 +72,20 @@ const signup = (req, res, next) => {
 
 
 
+// Google Sign-in
+const googleSignIn = (req, res, next) => {
+    
+    console.log('googleSignIn new user: ', req.user);
+
+    const token = req.user.accessToken;
+    
+    res.json({ token: token });
+    // TODO: set token to session storage
+};
+
+
 module.exports = {
     signin,
-    signup
+    signup,
+    googleSignIn,
 }

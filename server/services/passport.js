@@ -2,8 +2,11 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
+// const OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const config = require('../config');
 const User = require('../models/user');
+const GoogleUser = require('../models/googleAuthUser');
 
 
 // Create local strategy
@@ -80,6 +83,50 @@ const jwtLogin = new JWTStrategy(jwtOptions, (jwt_payload, done) => {
 
 
 
+// Create Google OAuth strategy
+const googleOptions = config.googleOAuth;
+const googleLogin = new GoogleStrategy(googleOptions, (accessToken, refreshToken, profile, done) => {
+
+    const newUser = {
+        googleID: profile.id,
+        displayName: profile.displayName,
+        profileImage: profile._json.image.url
+    }
+
+    GoogleUser.findOrCreate(newUser, (error, user) => {
+        
+        if(error) {
+            // console.log('googleLogin Error: ', error.message);
+            return done(error);
+        }
+
+        if(user) {
+            // console.log('Found user: ', user);
+            // console.log('User profile: ', profile);
+            const googleUser = {
+                user,
+                profile,
+                accessToken
+            };
+            return done(null, googleUser);
+        }
+
+    });
+
+});
+
+
+
+// Create GitHub OAuth strategy
+// const gitHubOptions = config.gitHubOAuth;
+
+// const gitHubLogin = new OAuth2Strategy(gitHubOptions, (accessToken, refreshToken, profile, done) => {
+
+
+
+// });
+
+
 
 // Session - use when strategy session is set to true
 // passport.serializeUser( (user, done) => {
@@ -101,3 +148,5 @@ const jwtLogin = new JWTStrategy(jwtOptions, (jwt_payload, done) => {
 // Assign JWT Strategies to passport
 passport.use(localLogin);
 passport.use(jwtLogin);
+passport.use(googleLogin);
+// passport.use('github', gitHubLogin);

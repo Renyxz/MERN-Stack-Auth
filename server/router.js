@@ -5,6 +5,12 @@ const options = {
     session: false,
 };
 
+const googleAuthOptions = {
+    scope: ['https://www.googleapis.com/auth/plus.login'],
+    failureRedirect: '/api/auth/google',
+    session: false,
+};
+
 // For debugging
 // const callback = (error, user, info) => {
 //     console.log('done: ', error, user, info);
@@ -12,6 +18,8 @@ const options = {
 
 const requireSignIn = passport.authenticate('local', options);
 const requireAuth = passport.authenticate('jwt', options);
+const requireGoogleOAuth = passport.authenticate('google', googleAuthOptions);
+// const requireGitHubOAuth = passport.authenticate('github');
 
 
 module.exports = (app) => {
@@ -26,6 +34,17 @@ module.exports = (app) => {
         Auth.signin(req, res); 
         return res.send({ message: 'auth success' });
     });
+
+    
+    // Google OAuth
+    app.get('/api/auth/google', requireGoogleOAuth);
+
+    app.get('/api/auth/google/callback', requireGoogleOAuth, Auth.googleSignIn);
+
+
+    // GitHub OAuth
+    // app.get('/api/auth/github', requireGitHubOAuth);
+
 
     // Sign up
     app.post('/api/signup', Auth.signup);
