@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { login } from '../auth';
+import { gLogo } from '../img/index';
 
 
 const SignIn = () => {
@@ -35,7 +36,14 @@ const SignIn = () => {
 
                     <br/>
 
-                    <button className="btn btn-info" type="submit" >Sign in</button>
+                    <button className="btn btn-info form-control" type="submit" >Sign in</button>
+
+                    <hr/>
+
+                    <a className="btn google-signin-btn form-control" href="/api/auth/google">
+                        <img className="g-icon" src={ gLogo } alt="g-logo" />
+                        <span>Sign in with Google</span>
+                    </a>
                 
                 </form>
 

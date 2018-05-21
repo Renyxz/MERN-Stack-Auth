@@ -1,6 +1,7 @@
 /* Style Reset */
 a:hover {
     text-decoration: none;
+    color: #333;
 }
 
 ul {
@@ -10,6 +11,21 @@ ul {
 li {
     list-style: none;
 }
+
+
+/* Google Sign-in button */
+.g-icon {
+    margin-right: 0.3rem;
+}
+
+.google-signin-btn {
+    background: #FFF;
+    text-align: left;
+    user-select: none;
+}
+
+
+
 
 
 /* Navbar */
